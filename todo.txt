@@ -3,9 +3,9 @@ UI: -y
 - Gitternetz
 
 a + b) -e
-- fixer strartpunkt bei (4, 0)
-- Wind fixen
-- Kostenrechnung
+- fixer strartpunkt bei (4, 0) done
+- Wind fixen done
+- Kostenrechnung done
 
 c)
-- Stochastischer wind
+- Stochastischer wind done

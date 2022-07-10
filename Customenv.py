@@ -15,6 +15,7 @@ HM_EPISODES = 25000
 MOVE_PENALTY = 1
 ISLAND_REACHED = 25
 
+COST = 0
 epsilon = 0.1
 EPS_DECAY = 0.9998
 
@@ -32,14 +33,18 @@ d = {1: (255, 175, 0),
      }
 
 class BlobIsland:
-    def __init__(self):
+    def __init__(self, COST=None):
         self.x = 4
         self.y = 8
 
 class BlobPlayer:
     def __init__(self):
-        self.x = 4
-        self.y = 0
+        print("start")
+        time.sleep(2)
+        self.x = 0
+        self.y = 4
+        print(self.x)
+        print(self.y)
 
     def __str__(self):
         return f"{self.x}, {self.y}"
@@ -68,6 +73,8 @@ class BlobPlayer:
         #     self.move(x=1 , y=-1)
 
     def move(self, x=False, y=False):
+        print("ybefore")
+        print(self.y)
         if not x:
             self.x += np.random.randint(-1, 2)
         else:
@@ -85,9 +92,34 @@ class BlobPlayer:
         elif self.y > SIZE - 1:
             self.y = SIZE - 1
 
-    def wind(self, x=7, y=True):
-        if x==7:
-            self.y += -2;
+        #standardwind a-b
+        if self.x == 3:
+            self.y = self.y + 1
+        elif self.x == 4:
+            self.y = self.y + 1
+        elif self.x == 5:
+            self.y = self.y + 1
+        elif self.x == 8:
+            self.y = self.y + 1
+        elif self.x == 6:
+            self.y = self.y + 2
+        elif self.x == 7:
+            self.y = self.y + 2
+
+        #randomwind c
+        #if self.x == 3 or self.x == 4 or self.x == 5 or self.x == 8:
+        #    s = 1
+        #elif self.x == 6 or self.x == 7:
+        #    s = 2
+        #choice = np.random.randomint(0,2)
+        #if choice == 0:
+        #    y_stoch = s
+        #elif choice == 1:
+        #    y_stoch = s - 1
+        #elif choice == 2:
+        #    y_stoch = s + 1
+        #if self.x == 3 or self.x == 4 or self.x == 5 or self.x == 8 or self.x == 6 or self.x == 7:
+        #    self.y = self + y_stoch
 
 if start_q_table is None:
     q_table = {}
@@ -114,13 +146,15 @@ for episode in range (HM_EPISODES):
         show = False
 
     episode_reward = 0
-    for i in range(200):
+    COST = 0
+    for i in range(20000):
         obs = (player - island, (0, 0))
         if np.random.random() > epsilon:
             action = np.argmax(q_table[obs])
         else:
-            action = np.random.randint(0, 8)
-
+            action = np.random.randint(0, 4)
+        COST += 1
+        print(f'Cost: {COST}')
         player.action(action)
 
         if player.x == island.x and player.y == island.y:
@@ -130,26 +164,6 @@ for episode in range (HM_EPISODES):
         new_obs = (player - island, player - enemy)
         max_future_q = np.max(q_table[new_obs])
         current_q = q_table[obs][action]
-
-        #Wind mit 1
-        if player.x == 4 or player.x == 5 or player.x == 6 or player.x == 9:
-            print("wind mit 1")
-            print(player)
-            player.y = player.y + 1
-            if player.y >= 7:
-                player.y = 7
-            print(player)
-            time.sleep(2)
-
-        # Wind mit 2
-        if player.x == 7 or player.x == 8:
-            print("wind mit 2")
-            print(player)
-            player.y = player.y + 2
-            if player.y >= 7:
-                player.y = -7
-            print(player)
-            time.sleep(2)
 
         if reward == ISLAND_REACHED:
             new_q = ISLAND_REACHED
@@ -163,6 +177,8 @@ for episode in range (HM_EPISODES):
             env[player.x][player.y] = d[Boot_Colour]
 
             img = Image.fromarray(env, "RGB")
+            print("player at position")
+            print(player)
             img = img.resize((400, 400))
             cv2.imshow("", np.array(img))
             if reward == ISLAND_REACHED:
