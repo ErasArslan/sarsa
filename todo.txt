@@ -1,0 +1,12 @@
+UI:
+- Größte auf 7x10 gitter
+- Gitternetz
+
+a + b)
+- fixer strartpunkt bei (4, 0)
+- Wind fixen
+- Kostenrechnung
+- Schrägebewegung
+
+c)
+- Stochastischer wind

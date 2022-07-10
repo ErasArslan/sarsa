@@ -50,22 +50,22 @@ class BlobPlayer:
     def action(self, choice):
         #time.sleep(0.1)
         if choice == 0:
-            self.move(x=1, y=1)
+            self.move(x=0 , y=1)
         elif choice == 1:
-            self.move(x=-1 , y=-1)
+            self.move(x=1 , y=0)
         elif choice == 2:
-            self.move(x=-1 , y=1)
+            self.move(x=-1 , y=0)
         elif choice == 3:
-            self.move(x=1 , y=-1)
+            self.move(x=0 , y=-1)
         #Aufgabe C
-        #elif choice == 4:
-        #    self.move(x=1 , y=2)
-        #elif choice == 5:
-        #    self.move(x=-1 , y=2)
-        #elif choice == 6:
-        #    self.move(x=-1 , y=2)
-        #elif choice == 7:
-        #    self.move(x=1 , y=-2)
+        # elif choice == 4:
+        #     self.move(x=1, y=1)
+        # elif choice == 5:
+        #     self.move(x=-1 , y=-1)
+        # elif choice == 6:
+        #     self.move(x=-1 , y=1)
+        # elif choice == 7:
+        #     self.move(x=1 , y=-1)
 
     def move(self, x=False, y=False):
         if not x:
@@ -85,7 +85,9 @@ class BlobPlayer:
         elif self.y > SIZE - 1:
             self.y = SIZE - 1
 
-    def wind(self, ):
+    def wind(self, x=7, y=True):
+        if x==7:
+            self.y += -2;
 
 if start_q_table is None:
     q_table = {}
@@ -117,7 +119,7 @@ for episode in range (HM_EPISODES):
         if np.random.random() > epsilon:
             action = np.argmax(q_table[obs])
         else:
-            action = np.random.randint(0, 4)
+            action = np.random.randint(0, 8)
 
         player.action(action)
 
@@ -145,8 +147,7 @@ for episode in range (HM_EPISODES):
             print(player)
             player.y = player.y + 2
             if player.y >= 7:
-                player.y = 7
-                player.move( 7, 7)
+                player.y = -7
             print(player)
             time.sleep(2)
 
