@@ -1,11 +1,14 @@
-UI: -y
-- Größte auf 7x10 gitter
-- Gitternetz
+TODO:
+()SARSA Algorithmus überprüfen
+()Messungen mit verschiedenen Attributen
+()Windanzeigen s
 
-a + b) -e
-- fixer strartpunkt bei (4, 0) done
-- Wind fixen done
-- Kostenrechnung done
-
-c)
-- Stochastischer wind done
+Fertig:
+(x)Größe auf 7x10 Gitter
+(x)Gitternetz
+(x)Fixer Startpunkt bei (4, 0)
+(x)Fix für Wiederholung von Visualisierung
+(x)Kostenrechnung
+(x)Stochastischer Wind
+(x)Willkürlicher Wind für jeden Punkt im Plot
+(x)Kostenrechnung wieder zerschossen -> nach erreichen des Ziels COSTENMAX anzeigen

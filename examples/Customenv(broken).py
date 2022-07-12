@@ -29,7 +29,7 @@ Boot_Colour = 1
 ISLAND_COLOUR = 2
 
 d = {1: (255, 175, 0),
-     2: (0, 255, 0)
+     2: (255, 255, 255)
      }
 
 class BlobIsland:
@@ -39,12 +39,8 @@ class BlobIsland:
 
 class BlobPlayer:
     def __init__(self):
-        print("start")
-        time.sleep(2)
         self.x = 0
         self.y = 4
-        print(self.x)
-        print(self.y)
 
     def __str__(self):
         return f"{self.x}, {self.y}"
@@ -121,6 +117,9 @@ class BlobPlayer:
         #if self.x == 3 or self.x == 4 or self.x == 5 or self.x == 8 or self.x == 6 or self.x == 7:
         #    self.y = self + y_stoch
 
+        if self.x > 7:
+            self.y = 7
+
 if start_q_table is None:
     q_table = {}
     for x1 in range(-SIZE+1, SIZE):
@@ -176,11 +175,16 @@ for episode in range (HM_EPISODES):
             env[island.x][island.y] = d[ISLAND_COLOUR]
             env[player.x][player.y] = d[Boot_Colour]
 
+            img = Image.open("../see.png")
+            datas = img.getdata()
             img = Image.fromarray(env, "RGB")
             print("player at position")
             print(player)
-            img = img.resize((400, 400))
+            img = img.resize((1000, 1000))
+            #img = Image.open("see.png")
+            #datas = img.getdata()
             cv2.imshow("", np.array(img))
+
             if reward == ISLAND_REACHED:
                 if cv2.waitKey(500) & 0xFF == ord("q"):
                     break
