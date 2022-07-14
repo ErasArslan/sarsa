@@ -1,7 +1,5 @@
 TODO:
-()SARSA Algorithmus überprüfen
 ()Messungen mit verschiedenen Attributen
-()Windanzeigen s
 
 Fertig:
 (x)Größe auf 7x10 Gitter
@@ -10,5 +8,7 @@ Fertig:
 (x)Fix für Wiederholung von Visualisierung
 (x)Kostenrechnung
 (x)Stochastischer Wind
+(x)SARSA Algorithmus überprüfen
+(x)Windanzeigen s
 (x)Willkürlicher Wind für jeden Punkt im Plot
 (x)Kostenrechnung wieder zerschossen -> nach erreichen des Ziels COSTENMAX anzeigen

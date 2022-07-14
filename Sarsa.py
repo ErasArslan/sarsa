@@ -39,10 +39,7 @@ ISLAND_REWARD = 25
 '''Farben(RGB) etc.'''
 SAYLINGBOAT_N = 1
 ISLAND_N = 2
-GRID_N = 3
 
-WINDS_N = 4
-WINDN_N = 5
 d = {1: (19, 69, 139),  #Boatcolor Brown
      2: (0, 255, 0),    #Islandcolor Lime
      3: (255, 175, 0),  #Gridcolor White
@@ -105,65 +102,7 @@ class BlobAgent:
         else:
             self.y += y
 
-        '''
-        Aufgabe a,b
-        Standardwind wie in der Aufgabe vorgegeben
-        '''
-        if WIND == 1:
-            if self.y == 3:
-                self.x = self.x - 1
-            elif self.y == 4:
-                self.x = self.x - 1
-            elif self.y == 5:
-                self.x = self.x - 1
-            elif self.y == 8:
-                self.x = self.x - 1
-            elif self.y == 6:
-                self.x = self.x - 2
-            elif self.y == 7:
-                self.x = self.x - 2
-        elif WIND == 2:
-            if self.y == 3:
-                self.x = self.x - 1
-            elif self.y == 4:
-                self.x = self.x - 1
-            elif self.y == 5:
-                self.x = self.x - 1
-            elif self.y == 8:
-                self.x = self.x - 1
-            elif self.y == 6:
-                self.x = self.x - 2
-            elif self.y == 7:
-                self.x = self.x - 2
-            elif self.y == 0:
-                if WIND1 == 0:
-                    self.x = self.x
-                elif WIND1 == 1:
-                    self.x = self.x - 1
-                else:
-                    self.x = self.x + 1
-            elif self.y == 1:
-                if WIND2 == 0:
-                    self.x = self.x
-                elif WIND2 == 1:
-                    self.x = self.x + 1
-                else:
-                    self.x = self.x - 1
-            elif self.y == 2:
-                if WIND3 == 0:
-                    self.x = self.x
-                elif WIND3 == 1:
-                    self.x = self.x + 1
-                else:
-                    self.x = self.x - 1
-            elif self.y == 9:
-                if WIND10 == 0:
-                    self.x = self.x
-                elif WIND10 == 1:
-                    self.x = self.x + 1
-                else:
-                    self.x = self.x - 1
-        '''
+
          Aufgabe a,b,c
          Grenzen werden gesteckt x: 0-10, y: 0-7
          '''
@@ -232,29 +171,7 @@ for episode in range(MAX_EPISODES):
 
         if show:
             env = np.zeros((SIZE, SIZE, 3), dtype=np.uint8)
-
-
-            env[island.x][island.y] = d[ISLAND_N]
-            env[agent.x][agent.y] = d[SAYLINGBOAT_N]
-            img = Image.fromarray(env, 'RGB')
-            img = img.resize((200, 200))
-
-            picture = cv2.imread('SarsaLegende.png')
-            if WIND == 0:
-                if Possible_MOVE == 4:
-                    LEGENDLABEL = "Wind:Aus Bewegung: 4"
-                elif Possible_MOVE == 8:
-                    LEGENDLABEL = "Wind:Aus Bewegung: 8"
-            elif WIND == 1:
-                if Possible_MOVE == 4:
-                    LEGENDLABEL = "Wind:Norden Bewegung: 4"
-                elif Possible_MOVE == 8:
-                    LEGENDLABEL = "Wind:Norden Bewegung: 8"
-            elif WIND == 2:
-                if Possible_MOVE == 4:
-                    LEGENDLABEL= "Wind:Stochastisch Bewegung: 4"
-                elif Possible_MOVE == 8:
-                    LEGENDLABEL = "Wind:Stochastisch Bewegung: 8"
+  
 
             cv2.imshow(LEGENDLABEL, picture)
             cv2.imshow("Projekt 11: Segeln lernen", np.array(img))
