@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import pickle
 from matplotlib import style
 import time
+from scipy.ndimage.filters import gaussian_filter
 
 style.use("ggplot")
 
@@ -23,26 +24,36 @@ Wind:
 3 - Wirkürlicher wind mit einer Wahrscheinlichkeit von 1/3
 '''
 WIND = 1
-
 '''Anzahl MAX. EPISODEN'''
 MAX_EPISODES = 25000
 '''Zeigt Zwischenstand nach *Episoden'''
 SHOW_AFTER_EPISODES = 1000
 '''Konstanten zur Berechnung von SARSA'''
 epsilon = 0.1
-LEARNING_RATE = 0.1
+learnrate = 0.1
 '''Hilfswerte zum Plotten etc.'''
 start_q_table = None
-DISCOUNT = 0.95
+gamma = 0.96
 MOVE_PENALTY = 1
 ISLAND_REWARD = 25
 '''Farben(RGB) etc.'''
 SAYLINGBOAT_N = 1
 ISLAND_N = 2
 GRID_N = 3
-d = {1: (255, 175, 0),
-     2: (0, 255, 0),
-     3: (255, 250, 255)}
+
+WINDS_N = 4
+WINDN_N = 5
+d = {1: (19, 69, 139),  #Boatcolor Brown
+     2: (0, 255, 0),    #Islandcolor Lime
+     3: (255, 175, 0),  #Gridcolor White
+     4: (139, 0, 139),  #SouthWind Yellow
+     5: (0, 0, 255)}    #NorthWind Red
+
+LEGENDLABEL = "DEFAULT"
+WIND1 = np.random.randint(0, 3)
+WIND2 = np.random.randint(0, 3)
+WIND3 = np.random.randint(0, 3)
+WIND10 = np.random.randint(0, 3)
 
 class BlobIsland:
     def __init__(self):
@@ -112,21 +123,46 @@ class BlobAgent:
             elif self.y == 7:
                 self.x = self.x - 2
         elif WIND == 2:
-            if self.y == 2 or self.y == 3 or self.y == 4 or self.y == 7:
-               s = 1
-            elif self.y == 5 or self.y == 6:
-               s = 2
-            else:
-                s = 0
-            choice = np.random.randomint(0, 2)
-            if choice == 0:
-               y_stoch = s
-            elif choice == 1:
-               y_stoch = s - 1
-            elif choice == 2:
-               y_stoch = s + 1
-            self.y = self + y_stoch
-
+            if self.y == 3:
+                self.x = self.x - 1
+            elif self.y == 4:
+                self.x = self.x - 1
+            elif self.y == 5:
+                self.x = self.x - 1
+            elif self.y == 8:
+                self.x = self.x - 1
+            elif self.y == 6:
+                self.x = self.x - 2
+            elif self.y == 7:
+                self.x = self.x - 2
+            elif self.y == 0:
+                if WIND1 == 0:
+                    self.x = self.x
+                elif WIND1 == 1:
+                    self.x = self.x - 1
+                else:
+                    self.x = self.x + 1
+            elif self.y == 1:
+                if WIND2 == 0:
+                    self.x = self.x
+                elif WIND2 == 1:
+                    self.x = self.x + 1
+                else:
+                    self.x = self.x - 1
+            elif self.y == 2:
+                if WIND3 == 0:
+                    self.x = self.x
+                elif WIND3 == 1:
+                    self.x = self.x + 1
+                else:
+                    self.x = self.x - 1
+            elif self.y == 9:
+                if WIND10 == 0:
+                    self.x = self.x
+                elif WIND10 == 1:
+                    self.x = self.x + 1
+                else:
+                    self.x = self.x - 1
         '''
          Aufgabe a,b,c
          Grenzen werden gesteckt x: 0-10, y: 0-7
@@ -167,16 +203,17 @@ for episode in range(MAX_EPISODES):
     COST = 0
     for i in range(400):
         #time.sleep(0.05)
+        COST += 1
         obs = (agent - island, agent - island)
         # print(f"x{agent.x} y{agent.y}")
         #print(obs)
         if np.random.random() > epsilon:
             action = np.argmax(q_table[obs])
-            print(np.argmax(q_table[obs]))
+            #print(np.argmax(q_table[obs]))
         else:
             action = np.random.randint(0, Possible_MOVE)
         agent.action(action)
-        COST += 1
+
         if agent.x == island.x and agent.y == island.y:
             reward = ISLAND_REWARD
         else:
@@ -188,61 +225,38 @@ for episode in range(MAX_EPISODES):
         if reward == ISLAND_REWARD:
             new_q = ISLAND_REWARD
         else:
-            new_q = (1 - LEARNING_RATE) * current_q + LEARNING_RATE * (reward + DISCOUNT * max_future_q)
+            #new_q = (1 - LEARNING_RATE) * current_q + LEARNING_RATE * (reward + gamma * max_future_q)
+            #Sarsa Algorithmus
+            new_q = current_q + learnrate * (reward + gamma * max_future_q - current_q)
         q_table[obs][action] = new_q
 
         if show:
             env = np.zeros((SIZE, SIZE, 3), dtype=np.uint8)
-            '''
-            Erkennbarer grid
-            '''
-            env[0][0] = d[GRID_N]
-            env[0][2] = d[GRID_N]
-            env[0][4] = d[GRID_N]
-            env[0][6] = d[GRID_N]
-            env[0][8] = d[GRID_N]
 
-            env[1][1] = d[GRID_N]
-            env[1][3] = d[GRID_N]
-            env[1][5] = d[GRID_N]
-            env[1][7] = d[GRID_N]
-            env[1][9] = d[GRID_N]
-
-            env[2][0] = d[GRID_N]
-            env[2][2] = d[GRID_N]
-            env[2][4] = d[GRID_N]
-            env[2][6] = d[GRID_N]
-            env[2][8] = d[GRID_N]
-
-            env[3][1] = d[GRID_N]
-            env[3][3] = d[GRID_N]
-            env[3][5] = d[GRID_N]
-            env[3][7] = d[GRID_N]
-            env[3][9] = d[GRID_N]
-
-            env[4][0] = d[GRID_N]
-            env[4][2] = d[GRID_N]
-            env[4][4] = d[GRID_N]
-            env[4][6] = d[GRID_N]
-            env[4][8] = d[GRID_N]
-
-            env[5][1] = d[GRID_N]
-            env[5][3] = d[GRID_N]
-            env[5][5] = d[GRID_N]
-            env[5][7] = d[GRID_N]
-            env[5][9] = d[GRID_N]
-
-            env[6][0] = d[GRID_N]
-            env[6][2] = d[GRID_N]
-            env[6][4] = d[GRID_N]
-            env[6][6] = d[GRID_N]
-            env[6][8] = d[GRID_N]
-            ''''''
 
             env[island.x][island.y] = d[ISLAND_N]
             env[agent.x][agent.y] = d[SAYLINGBOAT_N]
             img = Image.fromarray(env, 'RGB')
-            img = img.resize((300, 300))
+            img = img.resize((200, 200))
+
+            picture = cv2.imread('SarsaLegende.png')
+            if WIND == 0:
+                if Possible_MOVE == 4:
+                    LEGENDLABEL = "Wind:Aus Bewegung: 4"
+                elif Possible_MOVE == 8:
+                    LEGENDLABEL = "Wind:Aus Bewegung: 8"
+            elif WIND == 1:
+                if Possible_MOVE == 4:
+                    LEGENDLABEL = "Wind:Norden Bewegung: 4"
+                elif Possible_MOVE == 8:
+                    LEGENDLABEL = "Wind:Norden Bewegung: 8"
+            elif WIND == 2:
+                if Possible_MOVE == 4:
+                    LEGENDLABEL= "Wind:Stochastisch Bewegung: 4"
+                elif Possible_MOVE == 8:
+                    LEGENDLABEL = "Wind:Stochastisch Bewegung: 8"
+
+            cv2.imshow(LEGENDLABEL, picture)
             cv2.imshow("Projekt 11: Segeln lernen", np.array(img))
             if reward == ISLAND_REWARD:
                 print(f'Kosten: {COST}')
