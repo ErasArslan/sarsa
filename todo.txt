@@ -1,5 +1,9 @@
 TODO:
 ()Messungen mit verschiedenen Attributen
+()Präsentation
+    -> Messung für a, b ,c
+()Sarsa Prüfen - ist es gready?
+
 
 Fertig:
 (x)Größe auf 7x10 Gitter

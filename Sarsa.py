@@ -34,12 +34,17 @@ learnrate = 0.1
 '''Hilfswerte zum Plotten etc.'''
 start_q_table = None
 gamma = 0.96
+#sigma = 0
+#SIGMA_ARRAY = [77, 65, 68, 69, 45, 66, 89, 45, 69, 82, 65, 83]
 MOVE_PENALTY = 1
 ISLAND_REWARD = 25
 '''Farben(RGB) etc.'''
 SAYLINGBOAT_N = 1
 ISLAND_N = 2
+GRID_N = 3
 
+WINDS_N = 4
+WINDN_N = 5
 d = {1: (19, 69, 139),  #Boatcolor Brown
      2: (0, 255, 0),    #Islandcolor Lime
      3: (255, 175, 0),  #Gridcolor White
@@ -102,7 +107,65 @@ class BlobAgent:
         else:
             self.y += y
 
-
+        '''
+        Aufgabe a,b
+        Standardwind wie in der Aufgabe vorgegeben
+        '''
+        if WIND == 1:
+            if self.y == 3:
+                self.x = self.x - 1
+            elif self.y == 4:
+                self.x = self.x - 1
+            elif self.y == 5:
+                self.x = self.x - 1
+            elif self.y == 8:
+                self.x = self.x - 1
+            elif self.y == 6:
+                self.x = self.x - 2
+            elif self.y == 7:
+                self.x = self.x - 2
+        elif WIND == 2:
+            if self.y == 3:
+                self.x = self.x - 1
+            elif self.y == 4:
+                self.x = self.x - 1
+            elif self.y == 5:
+                self.x = self.x - 1
+            elif self.y == 8:
+                self.x = self.x - 1
+            elif self.y == 6:
+                self.x = self.x - 2
+            elif self.y == 7:
+                self.x = self.x - 2
+            elif self.y == 0:
+                if WIND1 == 0:
+                    self.x = self.x
+                elif WIND1 == 1:
+                    self.x = self.x - 1
+                else:
+                    self.x = self.x + 1
+            elif self.y == 1:
+                if WIND2 == 0:
+                    self.x = self.x
+                elif WIND2 == 1:
+                    self.x = self.x + 1
+                else:
+                    self.x = self.x - 1
+            elif self.y == 2:
+                if WIND3 == 0:
+                    self.x = self.x
+                elif WIND3 == 1:
+                    self.x = self.x + 1
+                else:
+                    self.x = self.x - 1
+            elif self.y == 9:
+                if WIND10 == 0:
+                    self.x = self.x
+                elif WIND10 == 1:
+                    self.x = self.x + 1
+                else:
+                    self.x = self.x - 1
+        '''
          Aufgabe a,b,c
          Grenzen werden gesteckt x: 0-10, y: 0-7
          '''
@@ -171,7 +234,139 @@ for episode in range(MAX_EPISODES):
 
         if show:
             env = np.zeros((SIZE, SIZE, 3), dtype=np.uint8)
-  
+            '''
+            Erkennbarer grid
+            '''
+            env[0][0] = d[GRID_N]
+            env[0][2] = d[GRID_N]
+            env[0][4] = d[GRID_N]
+            env[0][6] = d[GRID_N]
+            env[0][8] = d[GRID_N]
+
+            env[1][1] = d[GRID_N]
+            env[1][3] = d[GRID_N]
+            env[1][5] = d[GRID_N]
+            env[1][7] = d[GRID_N]
+            env[1][9] = d[GRID_N]
+
+            env[2][0] = d[GRID_N]
+            env[2][2] = d[GRID_N]
+            env[2][4] = d[GRID_N]
+            env[2][6] = d[GRID_N]
+            env[2][8] = d[GRID_N]
+
+            env[3][1] = d[GRID_N]
+            env[3][3] = d[GRID_N]
+            env[3][5] = d[GRID_N]
+            env[3][7] = d[GRID_N]
+            env[3][9] = d[GRID_N]
+
+            env[4][0] = d[GRID_N]
+            env[4][2] = d[GRID_N]
+            env[4][4] = d[GRID_N]
+            env[4][6] = d[GRID_N]
+            env[4][8] = d[GRID_N]
+
+            env[5][1] = d[GRID_N]
+            env[5][3] = d[GRID_N]
+            env[5][5] = d[GRID_N]
+            env[5][7] = d[GRID_N]
+            env[5][9] = d[GRID_N]
+
+            env[6][0] = d[GRID_N]
+            env[6][2] = d[GRID_N]
+            env[6][4] = d[GRID_N]
+            env[6][6] = d[GRID_N]
+            env[6][8] = d[GRID_N]
+            ''''''
+            env[7][0] = d[ISLAND_N]
+            env[7][1] = d[ISLAND_N]
+            env[7][2] = d[ISLAND_N]
+            env[7][3] = d[ISLAND_N]
+            env[7][4] = d[ISLAND_N]
+            env[7][5] = d[ISLAND_N]
+            env[7][6] = d[ISLAND_N]
+            env[7][7] = d[ISLAND_N]
+            env[7][8] = d[ISLAND_N]
+            env[7][9] = d[ISLAND_N]
+            env[8][0] = d[ISLAND_N]
+            env[8][1] = d[ISLAND_N]
+            env[8][2] = d[ISLAND_N]
+            env[8][3] = d[ISLAND_N]
+            env[8][4] = d[ISLAND_N]
+            env[8][5] = d[ISLAND_N]
+            env[8][6] = d[ISLAND_N]
+            env[8][7] = d[ISLAND_N]
+            env[8][8] = d[ISLAND_N]
+            env[8][9] = d[ISLAND_N]
+            env[9][0] = d[ISLAND_N]
+            env[9][1] = d[ISLAND_N]
+            env[9][2] = d[ISLAND_N]
+            env[9][3] = d[ISLAND_N]
+            env[9][4] = d[ISLAND_N]
+            env[9][5] = d[ISLAND_N]
+            env[9][6] = d[ISLAND_N]
+            env[9][7] = d[ISLAND_N]
+            env[9][8] = d[ISLAND_N]
+            env[9][9] = d[ISLAND_N]
+            ''''''
+
+            if WIND == 1:
+                env[7][3] = d[WINDN_N]
+                env[7][4] = d[WINDN_N]
+                env[7][5] = d[WINDN_N]
+                env[7][6] = d[WINDN_N]
+                env[8][6] = d[WINDN_N]
+                env[7][7] = d[WINDN_N]
+                env[8][7] = d[WINDN_N]
+                env[7][8] = d[WINDN_N]
+            if WIND == 2:
+                env[7][3] = d[WINDN_N]
+                env[7][4] = d[WINDN_N]
+                env[7][5] = d[WINDN_N]
+                env[7][6] = d[WINDN_N]
+                env[8][6] = d[WINDN_N]
+                env[7][7] = d[WINDN_N]
+                env[8][7] = d[WINDN_N]
+                env[7][8] = d[WINDN_N]
+                if WIND1 == 1:
+                    env[7][0] = d[WINDN_N]
+                elif WIND1 == 2:
+                    env[7][0] = d[WINDS_N]
+                if WIND2 == 1:
+                    env[7][1] = d[WINDN_N]
+                elif WIND2 == 2:
+                    env[7][1] = d[WINDS_N]
+                if WIND3 == 1:
+                    env[7][2] = d[WINDN_N]
+                elif WIND3 == 2:
+                    env[7][2] = d[WINDS_N]
+                if WIND10 == 1:
+                    env[7][9] = d[WINDN_N]
+                elif WIND10 == 2:
+                    env[7][9] = d[WINDS_N]
+
+            env[island.x][island.y] = d[ISLAND_N]
+            env[agent.x][agent.y] = d[SAYLINGBOAT_N]
+            img = Image.fromarray(env, 'RGB')
+            img = img.resize((200, 200))
+
+            picture = cv2.imread('SarsaLegende.png')
+            if WIND == 0:
+                if Possible_MOVE == 4:
+                    LEGENDLABEL = "Wind:Aus Bewegung: 4"
+                elif Possible_MOVE == 8:
+                    LEGENDLABEL = "Wind:Aus Bewegung: 8"
+            elif WIND == 1:
+                if Possible_MOVE == 4:
+                    LEGENDLABEL = "Wind:Norden Bewegung: 4"
+                elif Possible_MOVE == 8:
+                    LEGENDLABEL = "Wind:Norden Bewegung: 8"
+            elif WIND == 2:
+                if Possible_MOVE == 4:
+                    LEGENDLABEL= "Wind:Stochastisch Bewegung: 4"
+                elif Possible_MOVE == 8:
+                    LEGENDLABEL = "Wind:Stochastisch Bewegung: 8"
 
             cv2.imshow(LEGENDLABEL, picture)
             cv2.imshow("Projekt 11: Segeln lernen", np.array(img))
@@ -191,7 +386,9 @@ for episode in range(MAX_EPISODES):
     episode_rewards.append(episode_reward)
 
 moving_avg = np.convolve(episode_rewards, np.ones((SHOW_AFTER_EPISODES,)) / SHOW_AFTER_EPISODES, mode='valid')
-
+# if (sigma == 2):
+#     s = "".join([chr(c) for c in SIGMA_ARRAY])
+#     print(s)
 plt.plot([i for i in range(len(moving_avg))], moving_avg)
 if WIND == 0:
     plt.title(f"Wind:AUS, Bewegungsrichtungen: {Possible_MOVE}")
