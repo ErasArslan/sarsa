@@ -1,18 +1,17 @@
 TODO:
-()Messungen mit verschiedenen Attributen
-()Präsentation
-    -> Messung für a, b ,c
-()Sarsa Prüfen - ist es gready?
 
 
 Fertig:
-(x)Größe auf 7x10 Gitter
-(x)Gitternetz
-(x)Fixer Startpunkt bei (4, 0)
-(x)Fix für Wiederholung von Visualisierung
-(x)Kostenrechnung
-(x)Stochastischer Wind
-(x)SARSA Algorithmus überprüfen
-(x)Windanzeigen s
-(x)Willkürlicher Wind für jeden Punkt im Plot
-(x)Kostenrechnung wieder zerschossen -> nach erreichen des Ziels COSTENMAX anzeigen
+(x)eras: Größe auf 7x10 Gitter
+(x)eras: Gitternetz
+(x)eras: Fixer Startpunkt bei (4, 0)
+(x)eras: Fix für Wiederholung von Visualisierung
+(x)eras: Kostenrechnung
+(x)eras: Stochastischer Wind
+(x)eras: SARSA Algorithmus überprüfen
+(x)eras: Windanzeigen s
+(x)eras: Willkürlicher Wind für jeden Punkt im Plot
+(x)eras: Kostenrechnung wieder zerschossen -> nach erreichen des Ziels COSTENMAX anzeigen
+(x)eras: Messungen mit verschiedenen Attributen
+(x)eras: Präsentation
+    -> Messung für a, b ,c
